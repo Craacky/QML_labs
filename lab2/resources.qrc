@@ -1,0 +1,8 @@
+<RCC>
+    <qresource lang="English" prefix="/icons">
+        <file>close_24dp_E8EAED.svg</file>
+        <file>menu_24dp_E8EAED.svg</file>
+        <file>logout_24dp_E8EAED.svg</file>
+        <file>info_24dp_E8EAED.svg</file>
+    </qresource>
+</RCC>
