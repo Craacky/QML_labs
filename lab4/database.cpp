@@ -7,22 +7,22 @@ database::~database() {
 database::database(QObject *parent) : QObject(parent) {
 
 }
-
 //main
 void database:: connectToDataBase(){
 
     if(!QFile(DATABASE_NAME).exists()){
-        this->restoreDataBase();
+        restoreDataBase();
     }else{
-        this->openDataBase();
+        openDataBase();
     }
 
 }
 
 bool database:: restoreDataBase(){
 
-    if(this->openDataBase()){
-        return(this->createTable() ? true : false);
+    if(openDataBase()){
+        qDebug() << "RESTORED";
+        return createTable();
     }else{
         qDebug() << "Can't restore database!";
         return false;
@@ -36,6 +36,7 @@ bool database:: openDataBase(){
     db.setHostName(DATABASE_HOSTNAME);
     db.setDatabaseName(DATABASE_NAME);
     if(db.open()){
+        qDebug() << "db connected";
         return true;
     }else{
         return false;
@@ -46,33 +47,32 @@ void database:: closeDataBase(){
     db.close();
 }
 
-bool database:: createTable(){
+bool database::createTable() {
     QSqlQuery query;
 
-    if(!query.exec("CREATE TABLE " TABLE " ("
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                    TABLE_FNAME "VARCHAR(255)   NOT NULL"
-                    TABLE_SNAME "VARCHAR(255)   NOT NULL"
-                    TABLE_MNAME "VARCHAR(255)   NOT NULL"
-                    TABLE_PHONE "VARCHAR(255)   NOT NULL"
-                    " )"
-                    )){
-        qDebug() << "Database: error of create" << TABLE;
+    if (!query.exec("CREATE TABLE " TABLE " ("
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    TABLE_FNAME " VARCHAR(255) NOT NULL, "
+                    TABLE_SNAME " VARCHAR(255) NOT NULL, "
+                    TABLE_MNAME " VARCHAR(255) NOT NULL, "
+                    TABLE_PHONE " VARCHAR(255) NOT NULL"
+                    " );"
+                    )) {
+        qDebug() << "Database: error creating table " << TABLE;
         qDebug() << query.lastError().text();
         return false;
-    }else{
+    } else {
+        qDebug() << "Database: table created successfully";
         return true;
     }
-    return false;
-
 }
+
 
 bool database:: insertIntoTable(const QVariantList &data){
     QSqlQuery query;
-    query.prepare("INSERT INTO " TABLE " ( " TABLE_FNAME ", "
-                  TABLE_SNAME ", "
-                  TABLE_PHONE " ) "
-                  "VALUES (:FirstName, :SurName, :Phone)");
+    query.prepare("INSERT INTO " TABLE "(" TABLE_FNAME ", " TABLE_SNAME ", " TABLE_MNAME", " TABLE_PHONE ") "
+                  "VALUES (:FirstName, :SurName, :MidleName, :Phone);");
+
     query.bindValue(":FirstName", data[0].toString());
     query.bindValue(":SurName", data[1].toString());
     query.bindValue(":MidleName", data[2].toString());
@@ -91,12 +91,14 @@ bool database:: insertIntoTable(const QVariantList &data){
 //main
 bool database::insertIntoTable(const QString &fname, const QString &sname, const QString &mname, const QString &phone){
     QVariantList data;
-
     data.append(fname);
     data.append(sname);
     data.append(mname);
     data.append(phone);
-
+    qDebug() << fname;
+    qDebug() << sname;
+    qDebug() << mname;
+    qDebug() << phone;
     if(insertIntoTable(data)){
         return true;
     }else{

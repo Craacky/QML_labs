@@ -3,7 +3,7 @@
 
 #define DATABASE_HOSTNAME "Contacts"
 #define DATABASE_NAME "Contacts.db"
-#define TABLE "Contact"
+#define TABLE "test"
 #define TABLE_FNAME "FirstName"
 #define TABLE_SNAME "SurName"
 #define TABLE_MNAME "MidleName"
@@ -17,6 +17,7 @@
 #include <QFile>
 #include <QDate>
 #include <QDebug>
+
 
 class database : public QObject
 {

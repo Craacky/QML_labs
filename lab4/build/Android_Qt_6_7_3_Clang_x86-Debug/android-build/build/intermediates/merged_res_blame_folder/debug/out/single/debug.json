@@ -1,0 +1,6 @@
+[
+    {
+        "merged": "org.qtproject.example.lab4-merged_res-12:/xml_qtprovider_paths.xml.flat",
+        "source": "org.qtproject.example.lab4-android-build-13:/xml/qtprovider_paths.xml"
+    }
+]

@@ -35,32 +35,6 @@ ApplicationWindow {
                 }
             }
         }
-        ToolButton {
-            id: addButton
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "icons/add.svg"
-            visible: addButtonStatus
-            onClicked: {
-                var fname = addPageComponent.fnameField.text;
-                var sname = addPageComponent.snameField.text;
-                var mname = addPageComponent.mnameField.text;
-                var phone = addPageComponent.phoneField.text;
-
-                database.insertIntoTable(fname, sname, mname, phone);
-                myModel.updateModel();
-
-                addButtonStatus = false;
-                addPageComponent.fnameField.clear();
-                addPageComponent.snameField.clear();
-                addPageComponent.mnameField.clear();
-                addPageComponent.phoneField.clear();
-
-                stackView.pop();
-
-
-            }
-        }
 
         Label {
             anchors.centerIn: parent
@@ -76,7 +50,6 @@ ApplicationWindow {
 
     Component {
         id: listPage
-
         Item{
             width: appWin.width
             height: appWin.height
@@ -90,12 +63,12 @@ ApplicationWindow {
                         id: item
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        height: 52
+                        height: 100
                         Button {
                             anchors.fill: parent
-                            text: FirstName + SurName + MidleName + Phone
-                            onPressAndHold: {
-                                database.removeRecord(myModel.getId(listView.currentItem) + 1)
+                            text: FirstName + " " + SurName + " " + MidleName + "\n" + Phone
+                            onClicked: {
+                                database.removeRecord(myModel.getId(listView.currentItem))
                                 myModel.updateModel();
                             }
                         }
@@ -123,6 +96,20 @@ ApplicationWindow {
                     TextField { id: mnameField }
                     Text { text: qsTr("phone:"); font.pixelSize: 16 }
                     TextField { id: phoneField }
+                    Button{
+                        text: "Push"
+                        onClicked:{
+                            //database.insertIntoTable("a","b","c","12211");
+                            database.insertIntoTable(fnameField.text, snameField.text, mnameField.text, phoneField.text);
+                            myModel.updateModel();
+
+                            fnameField.clear();
+                            snameField.clear();
+                            mnameField.clear();
+                            phoneField.clear();
+
+                        }
+                    }
                 }
 
             }
