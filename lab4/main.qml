@@ -61,6 +61,7 @@ ApplicationWindow {
                     model: myModel
                     delegate: Item {
                         id: item
+                        property int itemIndex: index
                         anchors.left: parent.left
                         anchors.right: parent.right
                         height: 100
@@ -68,7 +69,7 @@ ApplicationWindow {
                             anchors.fill: parent
                             text: FirstName + " " + SurName + " " + MidleName + "\n" + Phone
                             onClicked: {
-                                database.removeRecord(myModel.getId(listView.currentItem))
+                                database.removeRecord(myModel.getId(itemIndex))
                                 myModel.updateModel();
                             }
                         }
