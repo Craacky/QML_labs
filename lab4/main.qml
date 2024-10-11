@@ -10,12 +10,17 @@ ApplicationWindow {
     width: 360
     height: 520
 
+    Material.theme: Material.Dark
+    Material.primary: "#006400"
+    Material.accent: "#006400"
+
     property int previousElement
     property string currentIcon: "icons/add_call.svg"
     property bool addButtonStatus: false
 
     header: ToolBar {
         id: toolBar
+        Material.background: "#006400"
 
         ToolButton {
             id: menuButton
@@ -42,6 +47,7 @@ ApplicationWindow {
             font.bold: true
         }
     }
+
     StackView {
         id: stackView
         anchors.fill: parent
@@ -50,11 +56,13 @@ ApplicationWindow {
 
     Component {
         id: listPage
-        Item{
+        Item {
             width: appWin.width
             height: appWin.height
             Rectangle {
                 anchors.fill: parent
+                color: "#121212"
+
                 ListView {
                     id: listView
                     anchors.fill: parent
@@ -64,10 +72,16 @@ ApplicationWindow {
                         property int itemIndex: index
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        height: 100
-                        Button {
+                        height: 70
+
+                        RoundButton {
                             anchors.fill: parent
                             text: FirstName + " " + SurName + " " + MidleName + "\n" + Phone
+                            background: Rectangle {
+                                color: "#1E1E1E"
+                                radius: 50
+                            }
+                            Material.foreground: "#006400"
                             onClicked: {
                                 database.removeRecord(myModel.getId(itemIndex))
                                 myModel.updateModel();
@@ -77,30 +91,68 @@ ApplicationWindow {
                 }
             }
         }
-
     }
 
     Component {
         id: addPage
-        Item{
+        Item {
             Rectangle {
                 anchors.fill: parent
+                color: "#121212"
+
                 ColumnLayout {
                     id: columnLayout
-                    anchors.centerIn: parent
-                    spacing: 10
-                    Text { text: qsTr("FirstName:"); font.pixelSize: 16 }
-                    TextField { id: fnameField }
-                    Text { text: qsTr("Surname:"); font.pixelSize: 16 }
-                    TextField { id: snameField }
-                    Text { text: qsTr("MidleName:"); font.pixelSize: 16 }
-                    TextField { id: mnameField }
-                    Text { text: qsTr("phone:"); font.pixelSize: 16 }
-                    TextField { id: phoneField }
-                    Button{
+                    y: toolBar.height
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.margins: 70
+                    spacing: 20
+
+                    TextField {
+                        id: fnameField
+                        Material.foreground: "white"
+                        Material.background: "#1E1E1E"
+                        placeholderText: "Enter FirstName"
+                        Layout.fillWidth: true
+                        onTextChanged: {
+                            text = text.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, "");
+                        }
+                    }
+                    TextField {
+                        id: snameField
+                        Material.foreground: "white"
+                        Material.background: "#1E1E1E"
+                        placeholderText: "Enter Surname"
+                        Layout.fillWidth: true
+                        onTextChanged: {
+                            text = text.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, "");                        }
+                    }
+                    TextField {
+                        id: mnameField
+                        Material.foreground: "white"
+                        Material.background: "#1E1E1E"
+                        placeholderText: "Enter MiddleNname"
+                        Layout.fillWidth: true
+                        onTextChanged: {
+                            text = text.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, "");
+                        }
+                    }
+                    TextField {
+                        id: phoneField
+                        Material.foreground: "white"
+                        Material.background: "#1E1E1E"
+                        placeholderText: "Enter PhoneNumber"
+                        Layout.fillWidth: true
+                        onTextChanged: {
+                            text = text.replace(/[^0-9+]/g, "");
+                        }
+                    }
+
+                    Button {
                         text: "Push"
-                        onClicked:{
-                            //database.insertIntoTable("a","b","c","12211");
+                        Layout.fillWidth: true
+                        Material.background: "#006400"
+                        onClicked: {
                             database.insertIntoTable(fnameField.text, snameField.text, mnameField.text, phoneField.text);
                             myModel.updateModel();
 
@@ -108,11 +160,9 @@ ApplicationWindow {
                             snameField.clear();
                             mnameField.clear();
                             phoneField.clear();
-
                         }
                     }
                 }
-
             }
         }
     }
