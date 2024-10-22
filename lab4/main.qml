@@ -114,7 +114,11 @@ ApplicationWindow {
                         Material.background: "#1E1E1E"
                         placeholderText: "Enter FirstName"
                         Layout.fillWidth: true
+
                         onTextChanged: {
+                            if(text.length > 20){
+                                text = text.substring(0,20);
+                            }
                             text = text.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, "");
                         }
                     }
@@ -125,6 +129,9 @@ ApplicationWindow {
                         placeholderText: "Enter Surname"
                         Layout.fillWidth: true
                         onTextChanged: {
+                            if(text.length > 20){
+                                text = text.substring(0,20);
+                            }
                             text = text.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, "");                        }
                     }
                     TextField {
@@ -134,6 +141,9 @@ ApplicationWindow {
                         placeholderText: "Enter MiddleNname"
                         Layout.fillWidth: true
                         onTextChanged: {
+                            if(text.length > 20){
+                                text = text.substring(0,20);
+                            }
                             text = text.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, "");
                         }
                     }
@@ -144,6 +154,9 @@ ApplicationWindow {
                         placeholderText: "Enter PhoneNumber"
                         Layout.fillWidth: true
                         onTextChanged: {
+                            if(text.length > 12){
+                                text = text.substring(0,12);
+                            }
                             text = text.replace(/[^0-9+]/g, "");
                         }
                     }
